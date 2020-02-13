@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HomePage</title>
+    <link href="{% static 'css/homePage.css' %}" rel="stylesheet" />
+</head>
+<body>
+    <h1>HomePage</h1>
+    {% if isLoggedIn is True %}
+        {{ details.username }}
+        <img src="{{details.profile }}" />
+    {% endif %}
+    <p>Top rated guides</p>
+    <ul>
+        {% for guide in guides.guides %}
+        <li>{{ guide.name }} takes {{ guide.rate }}.</li>
+        {% endfor %}
+    </ul>
+    <p>Recent Reviews</p>
+    <ul>
+        {% for guide in reviews.reviews %}
+        <li>{{ guide.name }} takes {{ guide.message }}.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
