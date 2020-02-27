@@ -1,0 +1,255 @@
+
+/*
+primary color: #07689F
+
+*/
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    box-sizing: border-box;
+}
+
+/* Nav */
+nav {
+    width:100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.4);
+    position: fixed;
+    left:0;
+    top:0;
+    background-color: white;
+    z-index: 1000;
+}
+nav .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+nav .left .logo{
+    height: 2.5em;
+}
+
+nav .right{
+    display: flex;
+    align-items: baseline;
+}
+
+nav .right .link{
+    font-weight: 600;
+    margin-right: 20px;
+    color: grey;
+}
+
+nav .connect {
+    border: unset;
+    color: grey;
+    background: none;
+    border: 1.5px solid grey;
+    font-weight: 600;
+    box-shadow: none;
+    padding: 0.6em 2em;
+    border-radius: 5px;
+}
+nav .signup {
+    background-color: #07689F;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    padding: 0.6em 2em;
+}
+
+/* ============================== Quote ============================== */
+#quote {
+    width: 100%;
+    background-image: url('../images/wall-2.jpg');
+    background-position-y: -20px;
+    background-attachment: fixed;
+    padding: 50px;
+}
+
+#quote .content {
+    width: 60%;
+    margin: 30px auto;
+    border: 3px solid white;
+    color: white;
+    border-radius: 5px;
+    box-shadow:  2px 2px rgba(0,0,0,0.4);
+}
+#quote .content h1{
+    text-align: center;
+    font-size: 45px;
+    font-weight: bolder;
+    padding: 30px;
+    text-shadow: 2px 2px rgba(0,0,0,0.4);
+}
+
+
+
+/* ============================== Footer ============================== */
+footer {
+    background-color: #323337;
+    color: white;
+    padding: 1% 12px;
+}
+
+footer .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer .content .logo {
+    font-size: 36px;
+    font-weight: 400;
+}
+
+footer .content .logo b {
+    font-size: 36px;
+    font-weight: bolder;
+}
+
+footer #social {
+  margin: 20px 10px;
+  text-align: center;
+}
+
+footer .smGlobalBtn { /* global button class */
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border:2px solid #ddd; /* add border to the buttons */
+    box-shadow: 0 3px 3px #999;
+    padding: 0px;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    font-size: 25px;
+    font-weight: normal;
+    line-height: 2em;
+    border-radius: 27px;
+    -moz-border-radius:27px;
+    -webkit-border-radius:27px;
+}
+
+/* facebook button class*/
+footer .facebookBtn{
+    background: #4060A5;
+}
+
+footer .facebookBtn:before{ /* use :before to add the relevant icons */
+    font-family: "FontAwesome";
+    content: "\f09a"; /* add facebook icon */
+}
+
+footer .facebookBtn:hover{
+    color: #4060A5;
+    background: #fff;
+    border-color: #4060A5; /* change the border color on mouse hover */
+}
+
+/* twitter button class*/
+footer .twitterBtn{
+    background: #00ABE3;
+}
+
+footer .twitterBtn:before{
+      font-family: "FontAwesome";
+      content: "\f099"; /* add twitter icon */
+      
+}
+
+footer .twitterBtn:hover{
+      color: #00ABE3;
+      background: #fff;
+      border-color: #00ABE3;
+}
+
+/* google plus button class*/
+footer .googleplusBtn{
+    background: #e64522;
+}
+
+footer .googleplusBtn:before{
+      font-family: "FontAwesome";
+      content: "\f0d5"; /* add googleplus icon */
+}
+
+footer .googleplusBtn:hover{
+      color: #e64522;
+      background: #fff;
+      border-color: #e64522;
+}
+
+/* linkedin button class*/
+footer .linkedinBtn{
+    background: #0094BC;
+}
+
+footer .linkedinBtn:before{
+      font-family: "FontAwesome";
+      content: "\f0e1"; /* add linkedin icon */
+}
+
+footer .linkedinBtn:hover{
+      color: #0094BC;
+      background: #fff;
+      border-color: #0094BC;
+}
+
+/* pinterest button class*/
+footer .pinterestBtn{
+    background: #cb2027;
+}
+
+footer .pinterestBtn:before{
+      font-family: "FontAwesome";
+      content: "\f0d2"; /* add pinterest icon */
+}
+
+footer .pinterestBtn:hover{
+      color: #cb2027;
+      background: #fff;
+      border-color: #cb2027;
+}
+
+/* tumblr button class*/
+footer .tumblrBtn{
+    background: #3a5876;
+}
+
+footer .tumblrBtn:before{
+      font-family: "FontAwesome";
+      content: "\f173"; /* add tumblr icon */
+}
+
+footer .tumblrBtn:hover{
+      color: #3a5876;
+      background: #fff;
+      border-color: #3a5876;
+}
+
+/* rss button class*/
+footer .rssBtn{
+    background: #e88845;
+}
+
+footer .rssBtn:before{
+      font-family: "FontAwesome";
+      content: "\f09e"; /* add rss icon */
+}
+
+footer .rssBtn:hover{
+      color: #e88845;
+      background: #fff;
+      border-color: #e88845;
+}
+
