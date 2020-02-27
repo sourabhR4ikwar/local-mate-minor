@@ -1,4 +1,4 @@
-<!doctype html>
+<!-- <!doctype html>
 <html lang="en">
 <head>
     {% load staticfiles %}
@@ -13,7 +13,7 @@
     <h1>HomePage</h1>
     {% if isLoggedIn is True %}
         {{ details.username }}
-        <img src="{{details.profile }}" />
+        <img src="{{ details.profile }}" />
     {% endif %}
     <p>Top rated guides</p>
     <ul>
@@ -28,4 +28,12 @@
         {% endfor %}
     </ul>
 </body>
-</html>
+</html> -->
+{% if user.name != '' %}
+ <p>{{ user.name}}</p>
+{% endif %}
+<p>search form</p>
+<p>topRated Guides</p>
+<p>Recent Reviews</p>
+<a href="{% url 'login' %}">Login</a>
+<a href="{% url 'signup'%}?q=True">Signup as Guide</a>

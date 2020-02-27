@@ -1,9 +1,19 @@
+{% if error %}
+<p>{{ error }}</p>
+{% endif %}
 <form action="{% url 'signUpProcess' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     Username:        <input type="text" name="username"/>
     email:           <input type="email" name="email"/>
-    Password:        <input type="password" name="pass" />
-    confirm password:<input type="password" name="pass"/>
+    Password:        <input type="password" name="password" />
+    confirm password:<input type="password" name="confirmPassword"/>
     Upload Profile Picture <input type="file" name="profile" />
-    <button type="submit">sign up</button>
+    <input type="hidden" name="isGuide" value="{{isGuide}}" /> 
+    <button type="submit">
+        {% if isGuide == 'True' %}
+            Next
+        {% else  %}
+            Sign up
+        {% endif %}
+    </button>
 </form>

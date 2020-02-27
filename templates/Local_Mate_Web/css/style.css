@@ -64,7 +64,68 @@ nav .signup {
     border-radius: 5px;
     padding: 0.6em 2em;
 }
+/* ============================== hero ================================= */
+#hero div{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    color: white;
+}
+#hero .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+}
+#hero .hero-content {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    text-shadow: 2px 2px rgba(0,0,0,0.4);
+    /* background-color: black; */
+    font-family: 'helvetica';
+}
 
+#hero .hero-content .container span{
+    display: block;
+    font-family: 'helvetica';
+}
+
+#hero .hero-content .container span:nth-of-type(1){
+    font-size: 66px;
+    font-weight: 800;
+}
+#hero .hero-content .container span:nth-of-type(2){
+    margin-top: -20px;
+    font-size: 48px;
+    font-weight: 400;
+}
+.hero-content form {
+    margin-top: 20px;
+}
+.hero-content input {
+    width: 400px;
+    height: 50px;
+    padding: 10px;
+    font-size: 16px;
+}
+.hero-content .searchBtn {
+    width: 150px;
+    height: 50px;
+    margin-left: -1px;
+    border:none;
+    background: none;
+    background-color: #07689F;
+    color: white;
+}
+.hero-content p {
+    margin-top: 10px;
+    font-size: 14px;
+}
 /* ============================== Quote ============================== */
 #quote {
     width: 100%;

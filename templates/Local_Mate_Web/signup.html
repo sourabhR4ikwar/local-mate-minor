@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up | Local Mate</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.boxContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('images/wall-3-1.jpg');
+    background-size: cover;
+}
+
+.box {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width: 450px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.login-form {
+    max-width: 90%;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.login-form input {
+    border: 1px solid #07689F;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.login-form .actions button{
+    width: 100%;
+    padding: 15px;
+    background-color: #07689F;
+    border: none;
+    color: white;
+}
+</style>
+</head>
+<body>
+    <div class="boxContainer">
+        <div class="box">
+            <div class="container">
+                <div class="w-100 d-flex flex-column justify-space-between">
+                    <div class="header text-center p-3">
+                        <p style="font-size:36px; color: #07689F;">Local<b>Mate</b></p>
+                    </div>
+                    <div class="login-form">
+                        <form action="" method="Post">
+                            <div class="d-flex flex-column">
+                                <input type="text" name="name" placeholder="Name" />
+                                <input type="email" name="email" placeholder="E-Mail"/>
+                                <input type="password" name="password" placeholder="Password"/>
+                                <input type="password" name="confirm-password" placeholder="Confirm Password" />
+                            </div>
+                            <div class="actions py-3">
+                                <button type="submit">Signup</button>
+                                <div class="w-100 d-flex justify-content-between mt-2">
+                                    <p><a href="#">Become a guide.</a></p>
+                                    <p><a href="#">Log In &rightarrow;</a></p>
+                                </div>
+                                <div>
+                                    <p><a href="#">&leftarrow; Back to Homepage</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
