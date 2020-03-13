@@ -10,4 +10,9 @@ urlpatterns = [
     path('loginHandler', views.loginProcess, name='loginProcess'),
     path('signUpHandler', views.signUpProcess, name='signUpProcess'),
     path('signup-guide-handler', views.signupGuideProcess, name='signup_guide_process'),
+    ## Search
+    ## GuideProfile(Previous Trips, Reviews)
+    ## createTrip
+    ## Profile(Current and Previous Trips(Reviews and ratings))
+    ## Conversation Page
 ]

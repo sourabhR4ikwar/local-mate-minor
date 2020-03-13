@@ -43,7 +43,7 @@ class Conversations(models.Model):
     message = models.TextField()
 
 class Reviews(models.Model):
-    tripId = models.ForeignKey(Trips, on_delete=models.CASCADE, related_name='%(class)s_requests_created')
+    tripId = models.ForeignKey(Trips, on_delete=models.CASCADE, related_name='%(class)s_requests_created' )
     review = models.TextField()
     rating = models.IntegerField()
 
