@@ -2,3 +2,21 @@
 <p>{{ error }}</p>
 {% endif %}
 <h1>Signup Guide</h1>
+<form action="{% url 'signup_guide_process' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="userid" value="{{userid}}" />
+    <label for="about_me">Tell us something about you..? : </label>
+    <input type="text" name="about_me" />
+    <label for="i_wil_show_you">What will you show to the traveller..? : </label>
+    <input type="text" name="i_will_show_you" />
+    <label for="rate">What are your hourly rates..? : </label>
+    <input type="number" name="rate" />
+    <label for="location">What all locations you are willing to work..?</label>
+    <input type="text" name="location" />
+    <label for="quote">Tell us your favourite quote.. or your core beliefs..? </label>
+    <input type="text" name="quote" />
+    <label for="languages">List all languages you are comfortable with..?</label>
+    <input type="text" name="languages" />
+    <button type="submit">Signup</button>
+</form>
+

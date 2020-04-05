@@ -1,0 +1,6 @@
+<h1>This Page is simulation of Payment gateway...</h1>
+<form action="{% url 'payment-handler' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="trip_id" value="{{ trip_id }}" />
+    <button type="submit">Click to Continued</button>
+</form>

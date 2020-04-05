@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from .models import User
+from .models import *
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-
+from django.utils.dateparse import parse_date
 
 
 ## ---------------------------------
@@ -84,8 +84,9 @@ def signUpProcess(request):
 
             except User.DoesNotExist:
                 newUser = User(email = email,password=password,name=name,profile=uploaded_img_url)  #blue wale fields models ki h
-                newUser.save()
                 if isGuide == 'True':
+                    newUser.isGuide = bool(isGuide)
+                    newUser.save()
                     url = '/signup-guide?q='+str(newUser.id)
                     return redirect(url)
                 else:
@@ -97,18 +98,52 @@ def signUpProcess(request):
     return redirect('/signup')
 
 def signupGuidePage(request):
+    userid = request.GET.get('q')
     error = None
     if 'error' in request.session:
         error = request.session['error']
         request.session['error'] = None
     
     return render(request,'auth/signup_guide.html', context={
-        "error": error
+        "error": error,
+        "userid":userid
     })
 
 def signupGuideProcess(request):
+    userid = request.POST.get('userid')
+    about_me = request.POST.get('about_me')
+    i_will_show_you = request.POST.get('i_will_show_you')
+    rate = request.POST.get('rate')
+    location = request.POST.get('location')
+    quote = request.POST.get('quote')
+    languages = request.POST.get('languages')
+    redirectUrl = '/signup-guide?q='+str(userid)
 
-    return redirect('/')
+    if userid == '':
+        request.session['error'] = 'Invalid User'
+        return redirect(redirectUrl)
+    
+    if about_me == '' or rate == '' or location == '' or quote=='' or languages =='' or i_will_show_you == '':
+        request.session['error'] = 'Please fill all the fields'
+        return redirect(redirectUrl)
+
+    if rate.isdigit() is False:
+        request.session['error'] = 'Please enter valid rate'
+        return redirect(redirectUrl)
+    
+    user = User.objects.get(id=userid)
+    newGuide = Guide(userid=user,
+                    location=location,
+                    quote=quote,
+                    rate=rate,
+                    ratings=0,
+                    i_will_show_you=i_will_show_you,
+                    about_me=about_me,
+                    languages=languages,
+                    isAvailable=True)
+    print(newGuide.__dict__)
+    newGuide.save()
+    return redirect('/login')
 
 
 ## ---------------------------------
@@ -141,6 +176,9 @@ def homePage(request):
     #         "profile": request.session['image']
     #     }
     # })
+    guides = Guide.objects.all().order_by('-ratings')[:10]
+    reviews = Reviews.objects.all().order_by('-rating')[:15]
+    trips = Trips.objects.all().order_by('-reviews__rating')[:15]
     userid = ''
     if 'userid' in request.session:
         userid = request.session['userid']
@@ -149,6 +187,140 @@ def homePage(request):
         "user": {
             "name": userid
         },
-        "guides": [],
-        "reviews": []
+        "guides": guides,
+        "trips": trips,
     })
+
+## ---------------------------------
+##   search
+## --------------------------------- 
+
+def search(request):
+    query = request.GET.get('q',None)
+    # guides = User.objects.all()
+    guides = Guide.objects.filter(location__contains=query)
+    return render(request, 'search/search.html', context={
+        "guides": guides,
+        "query": query
+    })
+
+    ## www.test.com/search?name=sourabh
+    
+## ---------------------------------
+##   Profile Calls
+## --------------------------------- 
+
+def retrieveGuide(request, guideid):
+    guide = Guide.objects.get(id=guideid)
+    return render(request, 'profile/guide.html', context={
+        "guide": guide
+    })
+
+def profile(request):
+    userid = request.session['userid']
+    user = User.objects.get(id=userid)
+    return render(request, 'profile/user.html', context={
+        "user": user
+    })
+
+    
+## ---------------------------------
+##   Create Trip Section
+## --------------------------------- 
+def createTrip(request, guideid):
+    guide = Guide.objects.get(id=guideid)
+
+    return render(request, 'createTrip/create-trip.html', context={
+        "guide_id":guideid,
+        "user_id": request.session['userid'],
+        "location": guide.location
+    })
+
+def createTripHandler(request):
+    guide_id = request.POST.get('guide_id')
+    user_id = request.POST.get('user_id')
+    location = request.POST.get('location')
+    dateStart = parse_date(request.POST.get('dateStart'))
+    dateEnd = parse_date(request.POST.get('dateEnd'))
+    # dateStart = datetime.strptime(request.POST.get('dateStart'), "%Y-%m-%d").date()
+    # dateEnd = datetime.strptime(request.POST.get('dateEnd'), "%Y-%m-%d").date()
+
+    guide = Guide.objects.get(id=guide_id)
+    user = User.objects.get(id=user_id)
+    dateDiff = dateEnd - dateStart
+    price= dateDiff.days * int(guide.rate)
+    review = Reviews()
+    review.save()
+    trip = Trips(
+        creator=user,
+        guide=guide,
+        location=location,
+        dateStart=dateStart,
+        dateEnd=dateEnd,
+        price=price,
+        reviews=review
+    )
+    trip.save()
+    tripid = trip.id
+    return redirect('/payment/'+str(tripid))
+
+def payment(request, tripId):
+    return render(request, 'createTrip/payment.html', context={
+        "trip_id": tripId
+    })
+
+def paymentHandler(request):
+    tripId = request.POST.get('trip_id')
+    trip = Trips.objects.get(id=tripId)
+    trip.isActive = True
+    trip.paymentVerified = True
+    trip.save()
+    return redirect('/profile')
+
+## ---------------------------------
+##   Conversations
+## --------------------------------- 
+
+def conversations(request):
+    tripId = request.GET.get('q')
+    trip = Trips.objects.get(id=tripId)
+    conversations = Conversations.objects.filter(trip=trip)
+    user_id = request.session['userid']
+    conversation_exists = False
+    if conversations.count() != 0:
+        conversation_exists = True
+
+    if trip.creator.id == user_id:
+        sender_id = user_id
+        receiver_id = trip.guide.user.id
+    else :
+        sender_id = trip.guide.user.id
+        receiver_id = user_id
+
+    return render(request, 'message/message.html', context={
+        "conversations": conversations,
+        "sender_id": sender_id,
+        "trip_id": tripId,
+        "receiver_id": receiver_id,
+        "conversations_exists": conversation_exists
+    }) 
+
+def send(request):
+    trip_id = request.POST.get('trip_id')
+    sender_id = request.POST.get('sender_id')
+    receiver_id = request.POST.get('receiver_id')
+    message = request.POST.get('message')
+    trip = Trips.objects.get(id=trip_id)
+    sender = User.objects.get(id=sender_id)
+    receiver = User.objects.get(id=receiver_id)
+    
+    conversation = Conversations(
+        trip=trip,
+        sender=sender,
+        receiver=receiver,
+        message=message
+    )
+
+    conversation.save()
+
+    return redirect('/conversations?q='+str(trip_id))

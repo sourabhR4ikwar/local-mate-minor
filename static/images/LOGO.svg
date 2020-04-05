@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="209" height="49" viewBox="0 0 209 49">
+  <g id="LOGO" transform="translate(-75 -233)">
+    <text id="Local" transform="translate(75 272)" fill="#07689f" font-size="40" font-family="Montserrat-Regular, Montserrat"><tspan x="0" y="0">Local</tspan></text>
+    <text id="Mate" transform="translate(180 272)" fill="#07689f" font-size="40" font-family="Montserrat-SemiBold, Montserrat" font-weight="600"><tspan x="0" y="0">Mate</tspan></text>
+  </g>
+</svg>
