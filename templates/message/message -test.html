@@ -1,0 +1,21 @@
+<div>
+{% if conversations_exists %}    
+    {% for message in conversations%}
+        {% if sender_id == message.sender.id %}
+            <p> Sender : {{ message.message }}</p>
+        {% else %}
+            <p> Reciever : {{ message.message }}</p>
+        {% endif %}
+    {% endfor %}
+{% else  %}
+    <p>No Previous Messages</p>
+{% endif %}
+</div>
+<form action="{% url 'send' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="trip_id" value="{{ trip_id }}" />
+    <input type="hidden" name="sender_id" value="{{ sender_id }}" />
+    <input type="hidden" name="receiver_id" value="{{ receiver_id }}" />
+    <input type="text" name="message" placeholder="Type here...">
+    <button type="submit">Send</button>
+</form>

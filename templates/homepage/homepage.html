@@ -1,3 +1,5 @@
+{% extends "includes/base.html" %}
+
 <!-- <!doctype html>
 <html lang="en">
 <head>
@@ -57,44 +59,8 @@
 </ul> -->
 
 <!-- =============================================================================================== -->
-<!doctype html>
-<html lang="en">
 
-<head>
-    {% load staticfiles %}
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{%  static 'css/style.css' %}">
-
-    <title>LocalMate !</title>
-</head>
-
-<body>
-    <!-- Nav -->
-    <nav>
-        <div class="container">
-            <div class="wrapper">
-                <div class="left">
-                    <img class="logo" src="{% static 'images/LOGO.svg' %}" />
-                </div>
-                <div class="right">
-                    <div class="mr-5">
-                        <a href="meet.html" class="link">Meet a local</a>
-                        <a href="about.html" class="link">About us</a>
-                    </div>
-                    <button class="connect mx-2" onclick="window.location.href = `{% url 'login' %}`;">CONNECT</button>
-                    <button class="signup mx-2 " onclick="window.location.href = `{% url 'signup'%}?q=True`;">SIGN UP AS A LOCAL</button>
-
-                </div>
-            </div>
-        </div>
-    </nav>
+{% block content%}
     <!-- /Nav -->
     <section id="hero">
         <div class="w-100">
@@ -124,13 +90,15 @@
                     <div class="card">
                         <div class="row no-gutters">
                             <div class="col-auto d-flex" style="background-color: lightgrey;">
-                                <img src="{% static 'images/wall-1.jpg' %}" style="max-width: 200px;" img-fluid" alt="">
+                                <!-- <img src="{% static 'images/wall-1.jpg' %}" style="max-width: 200px;" class="img-fluid" alt=""> -->
+                                     <!-- <img src="{{guide.user.profile}}" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt=""> -->
+                                     <div style="width: 180px; max-width: 180px; height: 200px; max-height: 200px; background-image: url('{{guide.user.profile}}');background-size: cover;background-position: center;background-repeat: no-repeat;"></div>
                             </div>
                             <div class="col">
                                 <div class="card-block px-2 d-flex flex-column justify-content-between h-100">
                                     <div class="card-head w-100 d-flex justify-content-between align-items-center">
-                                        <div class="Name">
-                                            <p><a href="#">{{ guide.user.name }}</a><br />
+                                        <div class="Name m-2">
+                                            <p><a href="{% url 'guide' guide.id %}">{{ guide.user.name }}</a><br />
                                                 <span>{{ guide.location }}, India</span></p>
                                         </div>
                                         <div class="Price">
@@ -190,7 +158,13 @@
                 {% for trip in trips %}
                 <div class="col-md-4">
                     <div class="card" style="width: 100%;">
-                        <img class="card-img-top" src="{% static 'images/wall-1.jpg' %}" alt="Card image cap">
+                        <!-- <img class="card-img-top" src="{% static 'images/wall-1.jpg' %}" alt="Card image cap"> -->
+                        <!-- <img class="card-img-top" src="{{trip.guide.user.profile}}" alt="Card image cap"> -->
+                        <div class="card-img-top" style="background-color: lightgrey;">
+                            <div
+                                style="width: 100%,290px; height: 190px; max-height: 190px; background-image: url('{{trip.creator.profile}}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                            </div>
+                        </div>
                         <div class="card-body">
                             <!-- <h5 class="card-title">Card title</h5> -->
                             <p class="card-text">Ratings : 
@@ -220,34 +194,4 @@
             <div class="mt-5"></div>
         </div>
     </section>
-    <footer>
-        <div class="container">
-            <div class="content">
-                <div>
-                    <span class="logo">Local<b>Mate</b></span>
-                    <p>Discover city with locals.</p>
-                </div>
-                <div>
-                    <div id="social">
-                        <a class="facebookBtn smGlobalBtn" href="#"></a>
-                        <a class="twitterBtn smGlobalBtn" href="#"></a>
-                        <a class="googleplusBtn smGlobalBtn" href="#"></a>
-                        <a class="linkedinBtn smGlobalBtn" href="#"></a>
-                        <a class="pinterestBtn smGlobalBtn" href="#"></a>
-                        <a class="tumblrBtn smGlobalBtn" href="#"></a>
-                        <a class="rssBtn smGlobalBtn" href="#"></a>
-                    </div>
-                    <p align="center">Local<strong>Mate</strong> &copy; 2020.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-</body>
-
-</html>
+  {% endblock %}

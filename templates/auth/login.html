@@ -1,9 +1,86 @@
-{% if error %}
-<p>{{ error }}</p>
-{% endif %}
-<form action="{% url 'loginProcess' %}" method="post">
-    {% csrf_token %}
-    <input type="email" name="email" placeholder="E-Mail"/>
-    <input type="password" name="password" placeholder="Password"/>
-    <button type="submit">Login</button>
-</form>
+{% extends "includes/no_nav.html" %}
+{% block content %}
+    {% load staticfiles %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        .boxContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-image: url("{% static 'images/wall-3-1.jpg' %}");
+            background-size: cover;
+        }
+    
+        .box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+        }
+    
+        .login-form {
+            max-width: 90%;
+            width: 100%;
+            margin: 0 auto;
+        }
+    
+        .login-form input {
+            border: 1px solid #07689F;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    
+        .login-form .actions button {
+            width: 100%;
+            padding: 15px;
+            background-color: #07689F;
+            border: none;
+            color: white;
+        }
+    </style>
+    <div class="boxContainer">
+        <div class="box">
+            <div class="container">
+                <div class="w-100 d-flex flex-column justify-space-between">
+                    <div class="header text-center p-3">
+                        <p style="font-size:36px; color: #07689F;">Local<strong>Mate</strong></p>
+                    </div>
+                    <div class="login-form">
+                        <form action="{% url 'loginProcess' %}" method="post">
+                            <div class="d-flex flex-column">
+                                {% if error %}
+                                <p style="color: red;">* {{ error }}</p>
+                                {% endif %}
+                                {% csrf_token %}
+                                <input type="email" name="email" placeholder="E-Mail" />
+                                <input type="password" name="password" placeholder="Password" />
+                                <p><a href="{% url 'signup' %}?q=True">Become a guide.</a></p>
+                            </div>
+                            <div class="actions py-3">
+                                <button type="submit">Log In</button>
+                                <div class="w-100 d-flex justify-content-between mt-2">
+                                    <p><a href="{% url 'signup' %}">Register</a></p>
+                                    <p><a href="{% url 'home' %}">Forget your password?</a></p>
+                                </div>
+                                <div>
+                                    <p><a href="{% url 'home' %}">&leftarrow; Back to Homepage</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

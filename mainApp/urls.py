@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('',views.homePage,name = 'home'),
     path('login',views.loginPage, name='login'),
+    path('logout', views.logout, name='logout'),
     path('signup',views.signUpPage, name='signup'),
     path('signup-guide', views.signupGuidePage, name='signup_guide'),
     path('loginHandler', views.loginProcess, name='loginProcess'),
@@ -18,8 +19,10 @@ urlpatterns = [
     ## createTrip
     path('create-trip/<int:guideid>',views.createTrip, name='create-trip' ),
     path('create-trip-handler', views.createTripHandler, name='create-trip-handler'),
-    path('payment/<int:tripId>', views.payment, name='payment'),
+    path('payment/<str:tripId>', views.payment, name='payment'),
     path('payment-handler', views.paymentHandler, name='payment-handler'),
+    path('success',views.success, name='success'),
+    path('failure',views.failure, name='failure'),
     ## Profile(Current and Previous Trips(Reviews and ratings))
     path('profile', views.profile, name='profile'),
     ## Conversation Page

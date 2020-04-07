@@ -1,21 +1,89 @@
-<div>
-{% if conversations_exists %}    
-    {% for message in conversations%}
-        {% if sender_id == message.sender.id %}
-            <p> Sender : {{ message.message }}</p>
-        {% else %}
-            <p> Reciever : {{ message.message }}</p>
-        {% endif %}
-    {% endfor %}
-{% else  %}
-    <p>No Previous Messages</p>
-{% endif %}
+{% extends 'includes/base.html' %}
+{% block content %}
+<div style="height:80px;"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="col-md-12">
+                <div class="card" style="width: 100%;">
+                    <div class="card-img-top" style="background-color: lightgrey;">
+                        <div
+                            style="width: 100%,290px; height: 190px; max-height: 190px; background-image: url('{{receiver.profile}}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ receiver.name }}</h5>
+                        <p class="card-text">{{receiver.email}}</p>
+                        <p class="card-text">Ratings :
+                            {% with ''|center:5 as range %}
+                            {% for _ in range %}
+                            {% if forloop.counter <= 3 %}
+                            <i class="fa fa-star"></i>
+                            {% else %}
+                            <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% endfor %}
+                            {% endwith %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-header" style="background-color:  #07689F;color:white;">
+                    Messages
+                </div>
+                <div class="card-body text-left">
+                    <div style="min-height:400px;height:100%;width:100%;overflow-y: scroll;">
+                        {% if conversations_exists %}
+                        {% for message in conversations%}
+                        {% if sender_id == message.sender.id %}
+                            <div class="d-flex justify-content-end">
+                                <p style="width:60%; padding:10px;border-radius:10px;background:rgb(22, 138, 206);color:white;">
+                                {{ message.message }}
+                                </p>
+                            </div>
+                        {% else %}
+                            <div class="d-flex">
+                                <i style="font-size:22px;margin-top:5px; color: #07689F;" class="fa fa-user-circle-o mr-3"></i>
+                                <p style="width:60%; padding:10px;border-radius:10px;background:  #07689F;color:white;">
+                                {{ message.message }}
+                                </p>
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% else  %}
+                            <h5 class="card-title text-center">No Previous Messages</h5>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+                <div class="card-footer text-muted">
+                    <form action="{% url 'send' %}" method="POST">
+                        <div class="d-flex justify-content-between">
+                            {% csrf_token %}
+                            <input type="hidden" name="trip_id" value="{{ trip_id }}" />
+                            <input type="hidden" name="sender_id" value="{{ sender_id }}" />
+                            <input type="hidden" name="receiver_id" value="{{ receiver_id }}" />
+                            <input type="text" style="width: 80%;" name="message" placeholder="Type here...">
+                            <button type="submit" style="width: 20%;background:  #07689F;" class="btn btn-primary">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
 </div>
-<form action="{% url 'send' %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="trip_id" value="{{ trip_id }}" />
-    <input type="hidden" name="sender_id" value="{{ sender_id }}" />
-    <input type="hidden" name="receiver_id" value="{{ receiver_id }}" />
-    <input type="text" name="message" placeholder="Type here...">
-    <button type="submit">Send</button>
-</form>
+
+
+<div>
+
+</div>
+<div class="mt-5"></div>
+
+
+{% endblock %}

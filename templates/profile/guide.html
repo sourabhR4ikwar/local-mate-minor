@@ -1,22 +1,234 @@
-<hr />
-<p align="right">
-    <a href="{% url 'create-trip' guide.id %}">Create Trip</a>
-</p>
-<hr />
-<p>
-    name : {{guide.user.name}}<br />
-    email : {{guide.user.email}}<br />
-    quote : {{guide.quote}}<br />
-    rate : {{guide.rate}}<br />
-    ratings : {{guide.ratings}}<br />
-</p>
-<hr />
-<p>
-    Locations : {{guide.location}}<br />
-    Languages : {{guide.languages}}<br />
-    About Me : {{guide.about_me}}<br />
-    I Will Show You : {{guide.i_will_show_you}}<br />
+{% extends 'includes/base.html'%}
+{% block content%}
+{% load staticfiles %}
+<style>
+.checked {
+  color: orange;
+}
+th, td{
+  font-size: 16px;
+}
+.create-trip * {
+  font-size: 16px;
+}
+</style>
+<div style="height:55px;"></div>
+<!-- <div style="height: 600px;overflow-y: scroll;"> -->
+  <div style="height: 250px; background-color: grey; background-image: url('{% static 'images/wall-3-1.jpg' %}');">
+    <div class="container">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-md-6 mt-3">
+          <div class="card">
+            <div class="row no-gutters">
+              <div class="col-auto d-flex" style="background-color: lightgrey;">
+                <!-- <img src="{% static 'images/wall-1.jpg' %}" style="max-width: 200px;" class="img-fluid" alt=""> -->
+                <!-- <img src="{{guide.user.profile}}" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt=""> -->
+                <div
+                  style="width: 180px; max-width: 180px; height: 200px; max-height: 200px; background-image: url('{{guide.user.profile}}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                </div>
+              </div>
+              <div class="col">
+                <div class="card-block px-2 d-flex flex-column justify-content-between h-100">
+                  <div class="card-head w-100 d-flex justify-content-between align-items-center">
+                    <div class="Name m-2">
+                      <p><a href="{% url 'guide' guide.id %}">{{ guide.user.name }}</a><br />
+                        <span>{{ guide.location }}, India</span></p>
+                    </div>
+                    <div class="Price">
+                      <h4>&#8377; {{ guide.rate }} /day</h4>
+                    </div>
+                  </div>
+                  <div class="Quote">
+                    <p><i class="fa fa-quote-left"></i></p>
+                    <p class="text-center"><i>{{ guide.quote }}.</i></p>
+                    <p class="text-right"><i class="fa fa-quote-right"></i></p>
+                  </div>
+                  <div class="feedback">
+                    <div class="row">
+                      <div class="col-md-6 text-center">
+                        <h6>Reviews</h6><br />
+                        <p>0</p>
+                      </div>
+                      <div class="col-md-6 text-center">
+                        <h6>Ratings</h6><br />
+                        <p>
+                          {% with ''|center:5 as range %}
+                          {% for _ in range %}
+                          {% if forloop.counter <= 3 %}
+                          <i class="fa fa-star"></i>
+                          {% else %}
+                          <i class="fa fa-star-o"></i>
+                          {% endif %}
+                          {% endfor %}
+                          {% endwith %}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="card-footer w-100 text-muted">
+                                                    Footer stating cats are CUTE little animals
+                                                </div> -->
+          </div>
+        </div>
+        <div class="col"></div>
+      </div>
+    </div>
+  </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <style>
+        th {
+          min-width: 250px;
+        }
+      </style>
+      <table class="table mt-3" style="padding: 40px" ;>
+        <thead>
+          <tr>
+            <th>Languages</th>
+            <td>{{guide.languages}}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>I will show you</th>
+            <td>{{guide.i_will_show_you}}</td>
+          </tr>
+          <tr>
+            <th>About me</th>
+            <td>{{guide.about_me}}
 
-</p>
-<hr />
-<img src="{{ guide.user.profile }}" />
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div class="mt-5 mb-3"><p style="font-size: 24px;">Previous Trips & Reviews</p></div>
+      <div class="row">
+        <!-- ============================================================================================================================== -->
+        {% for trip in trips %}
+        <div class="col-md-12 mt-3">
+          <div class="card">
+            <div class="row no-gutters">
+              <div class="col-auto d-flex" style="background-color: lightgrey;">
+                <!-- <img src="{% static 'images/wall-1.jpg' %}" style="max-width: 290px;" class="img-fluid" alt=""> -->
+                <!-- <img src="{{guide.user.profile}}" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt=""> -->
+                <!-- <div
+                  style="width: 180px; max-width: 180px; height: 200px; max-height: 200px; background-image: url('{{guide.user.profile}}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                </div> -->
+                <div
+                  style="width: 290px; max-width: 290px; height: 200px; max-height: 200px; background-image: url('{% static 'images/wall-1.jpg' %}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                  <div class="text-center p-5" style="background: rgba(0,0,0,0.7);">
+                                    
+                                      <h1 style=" font-weight: 900; color: white;">{{ trip.location }}</h1>
+                    <p style="font-weight: 900; color: white;">{{ trip.dateStart }} - {{ trip.dateEnd }}</p>
+                  
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card-block px-2 d-flex flex-column justify-content-between h-100">
+                  <div class="card-head w-100 d-flex justify-content-between align-items-center">
+                    <div class="Name m-2">
+                      <p>
+                        Ratings :
+                        {% with ''|center:5 as range %}
+                        {% for _ in range %}
+                        {% if forloop.counter <= 3 %}
+                        <i class="fa fa-star"></i>
+                        {% else %}
+                        <i class="fa fa-star-o"></i>
+                        {% endif %}
+                        {% endfor %}
+                        {% endwith %}
+                      </p>
+                    </div>
+                    <div class="Price">
+                      <h4>Price - &#8377; {{ trip.price }}</h4>
+                    </div>
+                  </div>
+                  <div class="Quote" style="height:100%;">
+                    <p><i class="fa fa-quote-left"></i></p>
+                    <p class="text-center"><i>{{ trip.reviews.review }}.</i></p>
+                    <p class="text-right"><i class="fa fa-quote-right"></i></p>
+                  </div>
+                  <!-- <div class="feedback">
+                    <div class="row">
+                      <div class="col-md-6 text-center">
+                        <h6>Reviews</h6><br />
+                        <p>0</p>
+                      </div>
+                      <div class="col-md-6 text-center">
+                        <h6>Ratings</h6><br />
+                        <p>
+                          Ratings : 
+                          {% with ''|center:5 as range %}
+                          {% for _ in range %}
+                          {% if forloop.counter <= 3 %}
+                          <i class="fa fa-star"></i>
+                          {% else %}
+                          <i class="fa fa-star-o"></i>
+                          {% endif %}
+                          {% endfor %}
+                          {% endwith %}
+                        </p>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- ======================================================================================================== -->
+      </div>
+      <div class="mt-5"></div>
+    </div>
+    <!-- =================================================================================================== -->
+    <div class="col-md-3" style="padding-top: 10px">
+      <div class="card create-trip" style="width: 25rem;">
+        <div class="card-body" style="text-align: center;">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <h5 class="card-title">Reviews</h5>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star"></span>
+              <span class="fa fa-star"></span>
+
+            </li>
+          </ul>
+          <p class="card-text">Create a trip to Delhi and get offers from locals</p>
+          <a href="#" class="btn btn-outline-primary">Create trip</a>
+          <h6 class="card-text">---or--- </h3>
+            <p class="card-text">Contact guide directly</p>
+            <a href="#" class="btn btn-primary">Comtact</a>
+            <p style="padding-top: 10px">Share
+              <a href="#" class="fa fa-facebook"></a>
+              <a href="#" class="fa fa-twitter"></a>
+              <a href="#" class="fa fa-instagram"></a>
+
+            </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">More info
+            <p><a href="#" class="card-link">About Local-mate</a></p>
+            <p><a href="#" class="card-link">Booking advice</a></p>
+          </li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+{% endblock %}

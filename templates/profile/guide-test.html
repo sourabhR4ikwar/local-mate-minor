@@ -1,0 +1,22 @@
+<hr />
+<p align="right">
+    <a href="{% url 'create-trip' guide.id %}">Create Trip</a>
+</p>
+<hr />
+<p>
+    name : {{guide.user.name}}<br />
+    email : {{guide.user.email}}<br />
+    quote : {{guide.quote}}<br />
+    rate : {{guide.rate}}<br />
+    ratings : {{guide.ratings}}<br />
+</p>
+<hr />
+<p>
+    Locations : {{guide.location}}<br />
+    Languages : {{guide.languages}}<br />
+    About Me : {{guide.about_me}}<br />
+    I Will Show You : {{guide.i_will_show_you}}<br />
+
+</p>
+<hr />
+<img src="{{ guide.user.profile }}" />

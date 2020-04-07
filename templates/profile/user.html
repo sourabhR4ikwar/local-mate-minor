@@ -1,21 +1,297 @@
-// user info
-<p>
-    <pre>
-        Name: {{ user.name }}
-        Email: {{ user.email }}
-        Total trips : 
-    </pre>
-</p>
-<p>
-    <a href="conversation?q=">communicate with guide</a>
-</p>
-// current trip 
-<p>
-    <h1>Current Trip -</h1>
-    price, payment-status, date, location, review, rating
-</p>
+{% extends 'includes/base.html'%}
+{% block content%}
+{% load staticfiles %}
+<style>
+.checked {
+  color: orange;
+}
+th, td{
+  font-size: 16px;
+}
+.create-trip * {
+  font-size: 16px;
+}
+div.stars {
+  width: 270px;
+  display: inline-block;
+}
 
-<p>
-    <h1>Previous Trip</h1>
-    price, payment-status, date, location, review, rating
-</p>
+input.star { display: none; }
+
+label.star {
+  float: right;
+  padding: 2px;
+  font-size: 22px;
+  color: #444;
+  transition: all .2s;
+}
+
+input.star:checked ~ label.star:before {
+  content: '\f005';
+  color: #FD4;
+  transition: all .25s;
+}
+
+input.star-5:checked ~ label.star:before {
+  color: #FE7;
+  text-shadow: 0 0 20px #952;
+}
+
+input.star-1:checked ~ label.star:before { color: #F62; }
+
+label.star:hover { transform: rotate(-15deg) scale(1.3); }
+
+label.star:before {
+  content: '\f006';
+  font-family: FontAwesome;
+}
+</style>
+<div style="height:55px;"></div>
+<!-- <div style="height: 600px;overflow-y: scroll;"> -->
+  <div style="height: 250px; background-color: grey; background-image: url('{% static 'images/wall-3-1.jpg' %}');">
+    <div class="container">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-md-6 mt-3">
+          <div class="card">
+            <div class="row no-gutters">
+              <div class="col-auto d-flex" style="background-color: lightgrey;">
+                <!-- <img src="{% static 'images/wall-1.jpg' %}" style="max-width: 200px;" class="img-fluid" alt=""> -->
+                <!-- <img src="{{guide.user.profile}}" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt=""> -->
+                <div
+                  style="width: 180px; max-width: 180px; height: 200px; max-height: 200px; background-image: url('{{user.profile}}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                </div>
+              </div>
+              <div class="col">
+                <div class="card-block px-2 d-flex flex-column justify-content-between h-100">
+                  <div class="card-head w-100 d-flex justify-content-between align-items-center">
+                    <div class="Name m-2">
+                      <h1>Hey, {{ user.name }} </h1>
+                    </div>
+                    <div class="Price">
+                      <h4><i class="fa fa-bell mr-3" style="color: #FD4;"></i></h4>
+                    </div>
+                  </div>
+                  <div class="Quote">
+                    <p><i class="fa fa-quote-left"></i></p>
+                    <p class="text-center" style="margin-left:25px;font-size:24px;"><h3 style="margin-left:25px;">You have total -<br>Previous Trips : 2<br>Ongoing Trips : 1</h3></p>
+                    <p class="text-right"><i class="fa fa-quote-right"></i></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="card-footer w-100 text-muted">
+                                                    Footer stating cats are CUTE little animals
+                                                </div> -->
+          </div>
+        </div>
+        <div class="col"></div>
+      </div>
+    </div>
+  </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      
+      <div class="mt-5 mb-3">
+        <p style="font-size: 24px;">Current Trip</p>
+      </div>
+      <div class="row">
+        <!-- ============================================================================================================================== -->
+        <div class="col-md-12 mt-3">
+          <div class="card">
+            <div class="row no-gutters">
+              <div class="col-auto d-flex" style="background-color: lightgrey;">
+                <!-- <img src="{% static 'images/wall-1.jpg' %}" style="max-width: 290px;" class="img-fluid" alt=""> -->
+                <!-- <img src="{{guide.user.profile}}" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt=""> -->
+                <!-- <div
+                        style="width: 180px; max-width: 180px; height: 200px; max-height: 200px; background-image: url('{{guide.user.profile}}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                      </div> -->
+                <div
+                  style="width: 290px; max-width: 290px; height: 200px; max-height: 200px; background-image: url('{% static 'images/wall-1.jpg' %}');background-size:cover;background-position: center;background-repeat: no-repeat;">
+                  <div class="text-center p-5" style="background: rgba(0,0,0,0.7);height:100%;">
+      
+                    <h1 style=" font-weight: 900; color: white;">{{ currentTrip.location }}</h1>
+                    <p style="font-weight: 900; color: white;">{{ currentTrip.dateStart }} - {{ currentTrip.dateEnd }}</p>
+                    <a href="{% url 'conversations' %}?q={{currentTrip.id}}" class="btn btn-primary">Discuss with Guide</a>
+      
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card-block px-2 d-flex flex-column justify-content-between h-100">
+                  <div class="card-head w-100 d-flex justify-content-between align-items-center">
+                    <div class="Name m-2">
+                      <p>
+                        <div class="stars d-flex align-items-center">
+                          <b style="font-size:22px;margin-top:-5px;">Rating - </b>
+                          <form action="">
+                            <input class="star star-5" id="star-5" type="radio" name="star" />
+                            <label class="star star-5" for="star-5"></label>
+                            <input class="star star-4" id="star-4" type="radio" name="star" />
+                            <label class="star star-4" for="star-4"></label>
+                            <input class="star star-3" id="star-3" type="radio" name="star" />
+                            <label class="star star-3" for="star-3"></label>
+                            <input class="star star-2" id="star-2" type="radio" name="star" />
+                            <label class="star star-2" for="star-2"></label>
+                            <input class="star star-1" id="star-1" type="radio" name="star" />
+                            <label class="star star-1" for="star-1"></label>
+                          
+                        </div>
+                      </p>
+                    </div>
+                    <div class="Price">
+                      <h4>Price - &#8377; {{ currentTrip.price }}</h4>
+                      <p>Payment Status - 
+                        {% if currenTrip.paymentVerified == True %}
+                          <b style="color:green">Verified</b>
+                        {% else %}
+                          <b style="color:red">Failed</b>
+                        {% endif %}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="Quote">
+                    <!-- <p><i class="fa fa-quote-left"></i></p> -->
+                      <textarea class="w-100" style="height: 80px;" name="review" value="{{ currentTrip.reviews.review }}"></textarea>                      
+                      <p class="text-right"><button class="btn btn-primary" type="submit">Submit Review</button></p>
+                    </form>
+                    <!-- <p class="text-center"><i>{{ trip.reviews.review }}.</i></p>
+                    <p class="text-right"><i class="fa fa-quote-right"></i></p> -->
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- ======================================================================================================== -->
+      </div>
+      <div class="mt-5"></div>
+
+      <div class="mt-5 mb-3"><p style="font-size: 24px;">Previous Trips & Reviews</p></div>
+      <div class="row">
+        <!-- ============================================================================================================================== -->
+        {% for trip in trips %}
+        <div class="col-md-12 mt-3">
+          <div class="card">
+            <div class="row no-gutters">
+              <div class="col-auto d-flex" style="background-color: lightgrey;">
+                <!-- <img src="{% static 'images/wall-1.jpg' %}" style="max-width: 290px;" class="img-fluid" alt=""> -->
+                <!-- <img src="{{guide.user.profile}}" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt=""> -->
+                <!-- <div
+                  style="width: 180px; max-width: 180px; height: 200px; max-height: 200px; background-image: url('{{guide.user.profile}}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                </div> -->
+                <div
+                  style="width: 290px; max-width: 290px; height: 200px; max-height: 200px; background-image: url('{% static 'images/wall-1.jpg' %}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                  <div class="text-center p-5" style="background: rgba(0,0,0,0.7);">
+                                    
+                                      <h1 style=" font-weight: 900; color: white;">{{ trip.location }}</h1>
+                    <p style="font-weight: 900; color: white;">{{ trip.dateStart }} - {{ trip.dateEnd }}</p>
+                  
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card-block px-2 d-flex flex-column justify-content-between h-100">
+                  <div class="card-head w-100 d-flex justify-content-between align-items-center">
+                    <div class="Name m-2">
+                      <p>
+                        Ratings :
+                        {% with ''|center:5 as range %}
+                        {% for _ in range %}
+                        {% if forloop.counter <= 3 %}
+                        <i class="fa fa-star"></i>
+                        {% else %}
+                        <i class="fa fa-star-o"></i>
+                        {% endif %}
+                        {% endfor %}
+                        {% endwith %}
+                      </p>
+                    </div>
+                    <div class="Price">
+                      <h4>Price - &#8377; {{ trip.price }}</h4>
+                    </div>
+                  </div>
+                  <div class="Quote" style="height:100%;">
+                    <p><i class="fa fa-quote-left"></i></p>
+                    <p class="text-center"><i>{{ trip.reviews.review }}.</i></p>
+                    <p class="text-right"><i class="fa fa-quote-right"></i></p>
+                  </div>
+                  <!-- <div class="feedback">
+                    <div class="row">
+                      <div class="col-md-6 text-center">
+                        <h6>Reviews</h6><br />
+                        <p>0</p>
+                      </div>
+                      <div class="col-md-6 text-center">
+                        <h6>Ratings</h6><br />
+                        <p>
+                          Ratings : 
+                          {% with ''|center:5 as range %}
+                          {% for _ in range %}
+                          {% if forloop.counter <= 3 %}
+                          <i class="fa fa-star"></i>
+                          {% else %}
+                          <i class="fa fa-star-o"></i>
+                          {% endif %}
+                          {% endfor %}
+                          {% endwith %}
+                        </p>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- ======================================================================================================== -->
+      </div>
+      <div class="mt-5"></div>
+    </div>
+    <!-- =================================================================================================== -->
+    <div class="col-md-3" style="padding-top: 10px">
+      <div class="card create-trip" style="width: 25rem;">
+        <div class="card-body" style="text-align: center;">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <h5 class="card-title">Reviews</h5>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star"></span>
+              <span class="fa fa-star"></span>
+
+            </li>
+          </ul>
+          <p class="card-text">Create a trip to Delhi and get offers from locals</p>
+          <a href="#" class="btn btn-outline-primary">Create trip</a>
+          <h6 class="card-text">---or--- </h3>
+            <p class="card-text">Contact guide directly</p>
+            <a href="#" class="btn btn-primary">Comtact</a>
+            <p style="padding-top: 10px">Share
+              <a href="#" class="fa fa-facebook"></a>
+              <a href="#" class="fa fa-twitter"></a>
+              <a href="#" class="fa fa-instagram"></a>
+
+            </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">More info
+            <p><a href="#" class="card-link">About Local-mate</a></p>
+            <p><a href="#" class="card-link">Booking advice</a></p>
+          </li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+{% endblock %}

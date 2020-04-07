@@ -1,0 +1,13 @@
+<form action="{% url 'search' %}" method="GET">
+    <input type="text" name="q"/>
+    <button type="submit">Search</button>
+</form>
+
+
+<h2>You searched for : {{query}}</h2>
+
+<ul>
+    {% for guide in guides%}
+    <li>{{guide.user.name}} - {{guide.location}} - <a href="{% url 'guide' guide.id %}">go to profile</a></li>
+    {% endfor %}
+</ul>

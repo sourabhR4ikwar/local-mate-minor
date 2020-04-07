@@ -1,0 +1,23 @@
+{% if user.name != '' %}
+ <p>{{ user.name}}</p>
+{% endif %}
+<form action="{% url 'search' %}" method="GET">
+    <input type="text" name="q" />
+    <button type="submit">Search</button>
+</form>
+
+<a href="{% url 'login' %}">Login</a>
+<a href="{% url 'signup'%}?q=True">Signup as Guide</a>
+
+<p>topRated Guides</p>
+<ul>
+    {% for guide in guides %}
+    <li>{{ guide.user.name }}</li>
+    {% endfor %}
+</ul>
+<p>Recent Reviews</p>
+<ul>
+    {% for review in reviews%}
+    <li><p>{{ review.review  }}</p><b>{{ review.rating }}</b></li>
+    {% endfor %}
+</ul> 

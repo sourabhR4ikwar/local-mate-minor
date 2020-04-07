@@ -1,13 +1,109 @@
-<form action="{% url 'search' %}" method="GET">
-    <input type="text" name="q"/>
-    <button type="submit">Search</button>
-</form>
+{% extends 'includes/base.html' %}
+{% block content %}
+{% load staticfiles %}
+<style>
+    .searchBox {
+        width: 100%;
+    }
+    .searchBox input {
+        width: 70%;
+        height: 50px;
+        padding: 10px;
+        font-size: 16px;
+    }
+    .searchBox button {
+        width: 150px;
+        height: 50px;
+        margin-left: -1px;
+        border:none;
+        background: none;
+        background-color: #07689F;
+        color: white;
+    }
+    .searchBox p {
+        margin-top: 10px;
+        font-size: 34px;
+    }
 
+</style>
+<div style="height:80px;"></div>
+<div style="height: 600px;overflow-y: scroll;">
 
-<h2>You searched for : {{query}}</h2>
+    <div class="container">
+        <div class="searchBox">
+            <form action="{% url 'search' %}" method="GET">
+                <input type="text" name="q" placeholder="Enter destination..." />
+                <button type="submit">Browse</button>
+            </form>
+            <p>
+                Showing Results for : {{query}}
+            </p>
+        </div>
+    </div>
 
-<ul>
-    {% for guide in guides%}
-    <li>{{guide.user.name}} - {{guide.location}} - <a href="{% url 'guide' guide.id %}">go to profile</a></li>
-    {% endfor %}
-</ul>
+    <div class="container">
+        <div class="row">
+            {% for guide in guides%}
+                <div class="col-md-6  mt-5">
+                    <div class="card">
+                        <div class="row no-gutters">
+                            <div class="col-auto d-flex" style="background-color: lightgrey;">
+                                <!-- <img src="{% static 'images/wall-1.jpg' %}" style="max-width: 200px;" class="img-fluid" alt=""> -->
+                                <!-- <img src="{{guide.user.profile}}" style="max-width: 200px; max-height: 200px;" class="img-fluid" alt=""> -->
+                                <div
+                                    style="width: 180px; max-width: 180px; height: 200px; max-height: 200px; background-image: url('{{guide.user.profile}}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card-block px-2 d-flex flex-column justify-content-between h-100">
+                                    <div class="card-head w-100 d-flex justify-content-between align-items-center">
+                                        <div class="Name m-2">
+                                            <p><a href="{% url 'guide' guide.id %}">{{ guide.user.name }}</a><br />
+                                                <span>{{ guide.location }}, India</span></p>
+                                        </div>
+                                        <div class="Price">
+                                            <h4>&#8377; {{ guide.rate }} /day</h4>
+                                        </div>
+                                    </div>
+                                    <div class="Quote">
+                                        <p><i class="fa fa-quote-left"></i></p>
+                                        <p class="text-center"><i>{{ guide.quote }}.</i></p>
+                                        <p class="text-right"><i class="fa fa-quote-right"></i></p>
+                                    </div>
+                                    <div class="feedback">
+                                        <div class="row">
+                                            <div class="col-md-6 text-center">
+                                                <h6>Reviews</h6><br />
+                                                <p>0</p>
+                                            </div>
+                                            <div class="col-md-6 text-center">
+                                                <h6>Ratings</h6><br />
+                                                <p>
+                                                    {% with ''|center:5 as range %}
+                                                    {% for _ in range %}
+                                                    {% if forloop.counter <= 3 %}
+                                                    <i class="fa fa-star"></i>
+                                                    {% else %}
+                                                    <i class="fa fa-star-o"></i>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% endwith %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="card-footer w-100 text-muted">
+                                            Footer stating cats are CUTE little animals
+                                        </div> -->
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

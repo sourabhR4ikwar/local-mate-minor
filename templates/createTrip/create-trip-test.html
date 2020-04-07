@@ -1,0 +1,14 @@
+<p>
+    Guide : {{ guide_id }}, <br />
+    User : {{ user_id }}
+</p>
+
+<form action="{% url 'create-trip-handler' %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="guide_id" value="{{guide_id}}" />
+    <input type="text" name="user_id" value="{{user_id}}" />
+    <input type="text" name="location" value="{{ location }}"/>
+    <input type="date" name="dateStart" />
+    <input type="date" name="dateEnd" />
+    <button type="submit">Create Trip</button>
+</form>

@@ -1,0 +1,9 @@
+{% if error %}
+<p>{{ error }}</p>
+{% endif %}
+<form action="{% url 'loginProcess' %}" method="post">
+    {% csrf_token %}
+    <input type="email" name="email" placeholder="E-Mail"/>
+    <input type="password" name="password" placeholder="Password"/>
+    <button type="submit">Login</button>
+</form>
